@@ -207,6 +207,7 @@ async function getCourseWork(courseId, workId) {
         'Name,Grade\n'
     )
     console.log("bruh", csv)
+    document.getElementById("output").innerText = csv;
     // if (!courseWork || courseWork.length == 0) {
     //     courseworkDiv.innerText = "No courseWork found.";
     //     return;
