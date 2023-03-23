@@ -13,7 +13,7 @@ const DISCOVERY_DOC = "https://classroom.googleapis.com/$discovery/rest";
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-const SCOPES = "https://www.googleapis.com/auth/classroom.coursework.students.readonly \ https://www.googleapis.com/auth/classroom.rosters.readonly"
+const SCOPES = "https://www.googleapis.com/auth/classroom.coursework.students.readonly https://www.googleapis.com/auth/classroom.rosters.readonly"
 let tokenClient;
 let gapiInited = false;
 let gisInited = false;
@@ -138,13 +138,14 @@ async function listCourses() {
     // Flatten to string to display
     const output = courses.reduce(
         // (str, course) => `${str}<input value='${course.id}' id='class_${course.id}' type='radio' name='course'><label for='class_${course.id}'>${course.name}</label><br/>`,
-        (str, course) => `${str}<button id='class_${course.id}' onclick='getClass(${course.id})'>${course.name}</button><br/>`,
-        "Courses:<br/>"
-    );
+        (str, course) => `${str}<option id='class_${course.id}' onclick='getClass(${course.id})'>${course.name} (id:${course.id})</option>`,
+        "<label for='classes_select'>Select Class: </label><input list='classes_list' id='classes_select'><datalist id='classes_list'>"
+    ) + "</datalist> <button id='classes_next' onclick='getClass()'>Next</button>" ;
     coursesDiv.innerHTML = output;
     
 }
-async function getClass(id) {
+async function getClass() {
+    const id = document.getElementById("classes_select").value.split("id:")[1].split(")")[0];
     getStudents(id)
     let response;
     try {
@@ -157,6 +158,7 @@ async function getClass(id) {
     }
 
     const courseWork = response.result.courseWork;
+    console.log("coursework", courseWork)
     if (!courseWork || courseWork.length == 0) {
         courseworkDiv.innerText = "No courseWork found.";
         return;
@@ -164,9 +166,9 @@ async function getClass(id) {
     // Flatten to string to display
     const output = courseWork.reduce(
         // (str, course) => `${str}<input value='${course.id}' id='class_${course.id}' type='radio' name='course'><label for='class_${course.id}'>${course.name}</label><br/>`,
-        (str, work) => `${str}<button id='class_${work.id}' onclick='getCourseWork(${id},${work.id})'>${work.title}</button><br/>`,
-        "Coursework:<br/>"
-    );
+        (str, work) => `${str}<option id='class_${work.id}' onclick='getCourseWork(${id},${work.id})' value='${work.title} (id:${work.id})'></option>`,
+        "<label for='coursework_select'>Select Assignment: </label><input list='coursework_list' id='coursework_select'><datalist id='coursework_list'>"
+    ) + `</datalist> <button id='coursework_next' onclick='getCourseWork(${id})'>Next</button>`;
     courseworkDiv.innerHTML = output;
 }
 
@@ -186,7 +188,9 @@ async function getStudents(courseId) {
     console.log(studentsData)
 }
 
-async function getCourseWork(courseId, workId) {
+async function getCourseWork(courseId) {
+    const workId = document.getElementById("coursework_select").value.split("id:")[1].split(")")[0];
+    console.log(workId)
     let response;
     try {
         response = await gapi.client.classroom.courses.courseWork.studentSubmissions.list({
