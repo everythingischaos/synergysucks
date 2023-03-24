@@ -9,19 +9,52 @@
   </head>
   <body>
     <script src="main.js"></script>
-    <script src="googleStuff.js"></script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
     <div id="app">
         <h1>Synergy Sucks</h1>
-        <button id="authorize_button">Sign in</button>
-        <div id="courses_div"></div>
-        <div id="coursework_div"></div>
-        <div id="output"></div>
-        <form id="filesubmit" style="display: none;"">
-            <input type="file" name="sheet" id="file" accept="application/vnd.ms-excel" />
-            <input type="submit">
-        </form>
+        <div id="howto">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>
+                    Grade submissions in <span class="classroom_color">Google Classroom</span>
+                </li>
+                <li>
+                    In <span class="classroom_color">Google Classroom</span>, go to student work and click the settings button (<a href="screenshots/settings.png" target="_blank">gear icon in top right</a>)
+                </li>
+                <li>
+                    Click <b>"Download all grades as CSV"</b>
+                </li>
+                <li>
+                    Save the CSV file somewhere you will remember
+                </li>
+                <li>
+                    On this website, click <b>"Upload Google Classroom CSV"</b> and select the CSV file you downloaded from Google Classroom
+                </li>
+                <li>
+                    On <span class="synergy_color">Synergy</span>, go to the corresponding assignment
+                </li>
+                <li>
+                    (TODO: add steps to download synergy XLSX document)
+                </li>
+                <li>
+                    On this website, click <b>"Upload Synergy XLSX"</b> and select the XLSX file you downloaded from synergy
+                </li>
+                <li>
+                    Click <b>"Combine Data"</b>
+                </li>
+            </ol>
+        </div>
+        <div id="info">
+            <label for="csv_upload" class="upload_label">Upload Google Classroom CSV<input type="file" name="sheet" id="csv_upload" accept=".csv" oninput="console.log" hidden/></label>
+            <label for="xlsx_upload" class="upload_label">Upload Synergy XLSX<input type="file" name="sheet" id="xlsx_upload" accept="application/vnd.ms-excel" hidden/></label>
+            <div id="classroom" class="card">
+                <h2 id="classroom_title"></h2>
+                <h4 id="classroom_score"></h4>
+                <h4 id="classroom_student_count"></h4>
+            </div>
+            <div id="synergy" class="card">
+
+            </div>
+        </div>
     </div>
   </body>
 </html>
