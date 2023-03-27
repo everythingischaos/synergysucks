@@ -9,6 +9,7 @@
   </head>
   <body>
     <script src="main.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <div id="app">
         <h1>Synergy Sucks</h1>
         <div id="howto">
@@ -45,15 +46,16 @@
         </div>
         <div id="info">
             <label for="csv_upload" class="upload_label">Upload Google Classroom CSV<input type="file" name="sheet" id="csv_upload" accept=".csv" oninput="console.log" hidden/></label>
-            <label for="xlsx_upload" class="upload_label">Upload Synergy XLSX<input type="file" name="sheet" id="xlsx_upload" accept="application/vnd.ms-excel" hidden/></label>
+            <label for="xlsx_upload" class="upload_label">Upload Synergy XLSX<input type="file" name="sheet" id="xlsx_upload" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden/></label>
             <div id="classroom" class="card">
                 <h2 id="classroom_title"></h2>
                 <h4 id="classroom_score"></h4>
                 <h4 id="classroom_student_count"></h4>
             </div>
             <div id="synergy" class="card">
-
+                <h4 id="synergy_student_count"></h4>
             </div>
+            <button id="combine" style="display: none;">Combine</button>
         </div>
     </div>
   </body>
